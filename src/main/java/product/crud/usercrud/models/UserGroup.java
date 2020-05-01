@@ -1,19 +1,25 @@
 package product.crud.usercrud.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")
+@Table(name = "user_groups",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = "group_name")
 })
 public class UserGroup {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "group_id")
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "group_name", nullable = false, unique = true)
     private String name;
+
+    @ManyToMany(mappedBy = "userGroups")
+    private List<User> users;
 
     public void setId(long id){
         this.id = id;
