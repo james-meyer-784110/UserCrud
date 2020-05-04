@@ -1,6 +1,10 @@
 package product.crud.usercrud.models;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -9,6 +13,7 @@ import java.util.List;
         @UniqueConstraint(columnNames = "user_name"),
         @UniqueConstraint(columnNames = "user_email")
 })
+@Data @NoArgsConstructor
 public class User {
 
     @Id
@@ -33,35 +38,16 @@ public class User {
     )
     private List<UserGroup> userGroups;
 
-    public void setId(long id){
-        this.id = id;
-    }
+    public List<String> getUserGroupsAsStrings(){
+        if(userGroups.size() == 0){
+            return new ArrayList<>(0);
+        }
 
-    public void setName(String name){
-        this.name = name;
-    }
+        List<String> groups = new ArrayList<>(userGroups.size());
+        userGroups.forEach(userGroup -> {
+            groups.add(userGroup.getName());
+        });
 
-    public void setEmail(String email){
-        this.email = email;
-    }
-
-    public void setPassword(String password){
-        this.password = password;
-    }
-
-    public long getId(){
-        return this.id;
-    }
-
-    public String getName(){
-        return this.name;
-    }
-
-    public String getEmail(){
-        return this.email;
-    }
-
-    public String getPassword(){
-        return this.password;
+        return groups;
     }
 }
