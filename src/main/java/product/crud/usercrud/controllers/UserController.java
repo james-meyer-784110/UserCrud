@@ -4,23 +4,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import product.crud.usercrud.models.User;
-import product.crud.usercrud.repo.UserRepository;
+import product.crud.usercrud.service.IUserService;
+
+import java.net.http.HttpResponse;
 
 @Controller
 @RequestMapping(path="/user")
 public class UserController {
 
     @Autowired
-    private UserRepository userRepo;
+    private IUserService userService;
 
     @PostMapping(path="/add")
-    public @ResponseBody String addUser(@RequestBody User user){
-        userRepo.save(user);
-        return "Saved";
+    public @ResponseBody long addUser(@RequestBody User user){
+        return userService.addUser(user);
     }
 
-    @GetMapping(path="/all")
-    public @ResponseBody Iterable<User> getAllUsers(){
-        return userRepo.findAll();
+    @GetMapping("{id}")
+    public @ResponseBody User getUserById(@RequestParam long id){
+        return userService.getUserById(id);
     }
+
+//    @GetMapping(path="/all")
+//    public @ResponseBody Iterable<User> getAllUsers(){
+//
+//    }
 }
