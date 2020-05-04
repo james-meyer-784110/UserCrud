@@ -6,6 +6,7 @@ import org.springframework.util.DigestUtils;
 import product.crud.usercrud.models.User;
 import product.crud.usercrud.repo.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,12 @@ public class UserService implements IUserService {
 
     @Override
     public List<String> getGroupsByUsernameAndPassword(String username, String password) {
+//        User result = userRepo.findByUsernameAndPassword(username, hashPassword(password));
+//        if(result == null){
+//            return new ArrayList<>(0);
+//        }
+//
+//        return result.getUserGroupsAsStrings();
         return null;
     }
 

@@ -1,5 +1,9 @@
 package product.crud.usercrud.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -8,6 +12,7 @@ import java.util.List;
         uniqueConstraints = {
         @UniqueConstraint(columnNames = "group_name")
 })
+@Data @NoArgsConstructor @AllArgsConstructor
 public class UserGroup {
 
     @Id
@@ -20,20 +25,4 @@ public class UserGroup {
 
     @ManyToMany(mappedBy = "userGroups")
     private List<User> users;
-
-    public void setId(long id){
-        this.id = id;
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public long getId(){
-        return this.id;
-    }
-
-    public String getName(){
-        return this.name;
-    }
 }
