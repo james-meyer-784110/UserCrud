@@ -1,5 +1,7 @@
 package product.crud.usercrud.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +15,9 @@ import java.util.List;
         @UniqueConstraint(columnNames = "user_name"),
         @UniqueConstraint(columnNames = "user_email")
 })
-@Data @NoArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -38,6 +42,7 @@ public class User {
     )
     private List<UserGroup> userGroups;
 
+    @JsonIgnore
     public List<String> getUserGroupsAsStrings(){
         if(userGroups.size() == 0){
             return new ArrayList<>(0);

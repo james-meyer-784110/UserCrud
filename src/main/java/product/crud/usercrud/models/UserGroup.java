@@ -1,5 +1,7 @@
 package product.crud.usercrud.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +20,14 @@ public class UserGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "group_id")
+    @JsonIgnore
     private long id;
 
     @Column(name = "group_name", nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "userGroups")
+    //@JsonIgnoreProperties("userGroups")
+    @JsonIgnore
     private List<User> users;
 }

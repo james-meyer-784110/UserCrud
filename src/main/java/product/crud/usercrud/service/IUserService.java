@@ -1,12 +1,15 @@
 package product.crud.usercrud.service;
 
+import org.hibernate.exception.ConstraintViolationException;
 import product.crud.usercrud.models.User;
 
 import java.util.List;
 
 public interface IUserService {
 
-    long addUser(User user);
+    User addUser(User user) throws Exception;
+
+    User deleteUser(long id);
 
     User getUserById(long id);
 
