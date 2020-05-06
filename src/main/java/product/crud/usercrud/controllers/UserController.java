@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import product.crud.usercrud.exceptions.NotFoundException;
+import product.crud.usercrud.exceptions.PasswordMismatchException;
 import product.crud.usercrud.models.User;
 import product.crud.usercrud.service.IUserService;
 
@@ -54,17 +56,25 @@ public class UserController {
 
     @PostMapping("login")
     public ResponseEntity<String> login(@RequestBody User user){
-        List<String> groups = userService.getGroupsByUsernameAndPassword(user.getName(), user.getPassword());
-        if(groups == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            List<String> groups = userService.getGroupsByUsernameAndPassword(user.getName(), user.getPassword());
+
+            Algorithm algorithm = Algorithm.HMAC256("secret");
+            String token = JWT.create()
+                    .withExpiresAt(Date.from(Instant.now().plusSeconds(60 * 60 * 2)))
+                    .withClaim("groups", groups)
+                    .sign(algorithm);
+
+            return new ResponseEntity<>(token, HttpStatus.OK);
         }
-
-        Algorithm algorithm = Algorithm.HMAC256("secret");
-        String token = JWT.create()
-                .withExpiresAt(Date.from(Instant.now().plusSeconds(60 * 60 * 2)))
-                .withClaim("groups", groups)
-                .sign(algorithm);
-
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        catch (NotFoundException e){
+            return new ResponseEntity<>(
+                    String.format("User %s does not exist", user.getName()),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        catch (PasswordMismatchException e){
+            return new ResponseEntity<>("Invalid username or password", HttpStatus.BAD_REQUEST);
+        }
     }
 }

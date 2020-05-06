@@ -6,6 +6,8 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import product.crud.usercrud.exceptions.NotFoundException;
+import product.crud.usercrud.exceptions.PasswordMismatchException;
 import product.crud.usercrud.models.User;
 import product.crud.usercrud.models.UserGroup;
 import product.crud.usercrud.repo.UserRepository;
@@ -57,10 +59,15 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<String> getGroupsByUsernameAndPassword(String username, String password) {
-        User result = userRepo.findByUsernameAndPassword(username, hashPassword(password));
+    public List<String> getGroupsByUsernameAndPassword(String username, String password)
+            throws NotFoundException, PasswordMismatchException
+    {
+        User result = userRepo.findByUsername(username);
         if(result == null){
-            return null;
+            throw new NotFoundException();
+        }
+        else if(!result.getPassword().equals(hashPassword(password))){
+            throw new PasswordMismatchException();
         }
 
         result = userRepo.findById(result.getId()).get();
