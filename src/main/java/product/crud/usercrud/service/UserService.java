@@ -24,7 +24,7 @@ public class UserService implements IUserService {
     @Override
     public User addUser(User user) throws Exception {
         user.setPassword(this.hashPassword(user.getPassword()));
-        user.setUserGroups(null);
+        //user.setUserGroups(null);
 
         User result = userRepo.save(user);
         result.setPassword("");

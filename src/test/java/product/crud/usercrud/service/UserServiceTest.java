@@ -33,7 +33,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void addUserReturnsUser(){
+    public void addUserReturnsUser() throws Exception {
         User user = new User(0, "alice", "alice@email.com", "password123", null);
 
         when(userRepository.save(user))
@@ -43,7 +43,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void addUserReturnsUserWithEmptyPassword(){
+    public void addUserReturnsUserWithEmptyPassword() throws Exception {
         User user = new User(0, "alice", "alice@email.com", "password123", null);
 
         when(userRepository.save(user))

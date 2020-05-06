@@ -2,6 +2,7 @@ package product.crud.usercrud.repo;
 
 import org.junit.Assert;
 import org.junit.Test;
+//import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,21 +33,5 @@ public class UserRepoTest {
         User result = userRepository.save(user);
 
         Assert.assertEquals(user, result);
-    }
-
-    @Test
-    public void addUserAddsUserGroups() {
-        User user = new User(0, "bob", "bob@email.com", "password123", null);
-        List<User> users = new ArrayList<>(Arrays.asList(user));
-        List<UserGroup> userGroups = new ArrayList<>(Arrays.asList(
-                new UserGroup(0, "admins", users),
-                new UserGroup(1, "authors", users)
-        ));
-
-        User result = userRepository.save(user);
-
-        Assert.assertNotNull(result.getUserGroups());
-        Assert.assertEquals("admins", result.getUserGroups().get(0));
-        Assert.assertEquals("authors", result.getUserGroups().get(1));
     }
 }

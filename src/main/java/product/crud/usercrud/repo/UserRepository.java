@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
-//    @Query(value = "SELECT * FROM users WHERE users.user_id = :id")
-//    Optional<User> findById(@Param("id") long id);
 
     @Query(value = "SELECT * FROM users WHERE users.user_name = :username AND users.user_password = :password",
             nativeQuery = true)
