@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import product.crud.usercrud.exceptions.NotFoundException;
+import product.crud.usercrud.exceptions.PasswordLengthException;
 import product.crud.usercrud.exceptions.PasswordMismatchException;
 import product.crud.usercrud.models.User;
 import product.crud.usercrud.service.IUserService;
@@ -30,6 +31,9 @@ public class UserController {
         try {
             User result = userService.addUser(user);
             return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        catch (PasswordLengthException e){
+            return new ResponseEntity<>("Password must be 8 characters or longer", HttpStatus.BAD_REQUEST);
         }
         catch (Exception e){
             return new ResponseEntity<>("Username or email already taken", HttpStatus.CONFLICT);

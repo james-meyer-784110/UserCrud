@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import product.crud.usercrud.exceptions.NotFoundException;
-import product.crud.usercrud.exceptions.PasswordMismatchException;
+import product.crud.usercrud.exceptions.*;
 import product.crud.usercrud.models.User;
 import product.crud.usercrud.repo.UserRepository;
 
@@ -21,9 +20,13 @@ public class UserService implements IUserService {
     private UserRepository userRepo;
 
     @Override
-    public User addUser(User user) throws Exception {
+    public User addUser(User user) throws PasswordLengthException {
+        if(user.getPassword().length() < 8){
+            throw new PasswordLengthException();
+        }
+
         user.setPassword(this.hashPassword(user.getPassword()));
-        //user.setUserGroups(null);
+        user.setUserGroups(null);
 
         User result = userRepo.save(user);
         return result;
