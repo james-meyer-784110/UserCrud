@@ -27,7 +27,6 @@ public class UserGroup {
     private String name;
 
     @ManyToMany(mappedBy = "userGroups")
-    //@JsonIgnoreProperties("userGroups")
     @JsonIgnore
     private List<User> users;
 }

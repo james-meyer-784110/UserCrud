@@ -32,6 +32,7 @@ public class User {
     private String email;
 
     @Column(name = "user_password", nullable = false)
+    @JsonIgnore
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL)

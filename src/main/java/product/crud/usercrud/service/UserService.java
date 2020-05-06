@@ -2,17 +2,14 @@ package product.crud.usercrud.service;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import product.crud.usercrud.exceptions.NotFoundException;
 import product.crud.usercrud.exceptions.PasswordMismatchException;
 import product.crud.usercrud.models.User;
-import product.crud.usercrud.models.UserGroup;
 import product.crud.usercrud.repo.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +26,6 @@ public class UserService implements IUserService {
         //user.setUserGroups(null);
 
         User result = userRepo.save(user);
-        result.setPassword("");
         return result;
     }
 
@@ -42,7 +38,6 @@ public class UserService implements IUserService {
 
         User user = result.get();
         userRepo.delete(user);
-        user.setPassword("");
         return user;
     }
 
@@ -54,7 +49,6 @@ public class UserService implements IUserService {
         }
 
         User user = result.get();
-        user.setPassword("");
         return user;
     }
 
