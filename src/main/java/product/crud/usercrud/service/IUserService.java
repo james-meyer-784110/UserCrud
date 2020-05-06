@@ -12,9 +12,9 @@ public interface IUserService {
     User addUser(User user)
             throws PasswordLengthException;
 
-    User deleteUser(long id);
+    User deleteUser(long id) throws NotFoundException;
 
-    User getUserById(long id);
+    User getUserById(long id) throws NotFoundException;
 
     List<String> getGroupsByUsernameAndPassword(String username, String password)
             throws NotFoundException, PasswordMismatchException;

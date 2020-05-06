@@ -33,10 +33,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User deleteUser(long id){
+    public User deleteUser(long id) throws NotFoundException {
         Optional<User> result = userRepo.findById(id);
         if(result.isEmpty()){
-            return null;
+            throw new NotFoundException();
         }
 
         User user = result.get();
@@ -45,10 +45,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getUserById(long id) {
+    public User getUserById(long id) throws NotFoundException {
         Optional<User> result = userRepo.findById(id);
         if(result.isEmpty()){
-            return null;
+            throw new NotFoundException();
         }
 
         User user = result.get();

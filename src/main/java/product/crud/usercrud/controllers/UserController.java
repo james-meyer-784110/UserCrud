@@ -14,8 +14,6 @@ import product.crud.usercrud.models.User;
 import product.crud.usercrud.service.IUserService;
 
 import java.time.Instant;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +33,7 @@ public class UserController {
         catch (PasswordLengthException e){
             return new ResponseEntity<>("Password must be 8 characters or longer", HttpStatus.BAD_REQUEST);
         }
+        // TODO: need to specify the constraint violation exception that occurs here
         catch (Exception e){
             return new ResponseEntity<>("Username or email already taken", HttpStatus.CONFLICT);
         }
@@ -42,20 +41,24 @@ public class UserController {
 
     @GetMapping("{id}")
     public ResponseEntity<User> getUserById(@PathVariable long id){
-        User result = userService.getUserById(id);
-        if(result == null){
+        try {
+            User result = userService.getUserById(id);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        catch(NotFoundException e){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<User> deleteUserById(@PathVariable long id){
-        User result = userService.deleteUser(id);
-        if(result == null){
+        try {
+            User result = userService.deleteUser(id);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        catch (NotFoundException e){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("login")
