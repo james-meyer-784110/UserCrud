@@ -60,7 +60,7 @@ public class UserService implements IUserService {
     public List<String> getGroupsByUsernameAndPassword(String username, String password) {
         User result = userRepo.findByUsernameAndPassword(username, hashPassword(password));
         if(result == null){
-            return new ArrayList<>(0);
+            return null;
         }
 
         result = userRepo.findById(result.getId()).get();

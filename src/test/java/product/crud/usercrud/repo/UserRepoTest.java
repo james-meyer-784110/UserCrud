@@ -2,17 +2,11 @@ package product.crud.usercrud.repo;
 
 import org.junit.Assert;
 import org.junit.Test;
-//import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import product.crud.usercrud.models.User;
-import product.crud.usercrud.models.UserGroup;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
