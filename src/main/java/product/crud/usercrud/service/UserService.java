@@ -37,25 +37,34 @@ public class UserService implements IUserService {
     public User updateUserPassword(UserPasswordUpdate update)
             throws NotFoundException, UnauthorizedException, PasswordLengthException
     {
-        User result = userRepo.findByUsername(update.getUserName());
-        if(result == null){
+        User user = userRepo.findByUsername(update.getUserName());
+        if(user == null){
             throw new NotFoundException();
         }
-        else if(!result.getPassword().equals(hashPassword(update.getOldPassword()))){
+        else if(!user.getPassword().equals(hashPassword(update.getOldPassword()))){
             throw new UnauthorizedException();
         }
-        else if(result.getPassword().length() < 8){
+        else if(user.getPassword().length() < 8){
             throw new PasswordLengthException();
         }
 
-
-        return null;
+        user.setPassword(hashPassword(update.getNewPassword()));
+        return userRepo.save(user);
     }
 
     public User updateUserEmail(UserEmailUpdate update)
             throws NotFoundException, UnauthorizedException
     {
-        return null;
+        User user = userRepo.findByUsername(update.getUserName());
+        if(user == null){
+            throw new NotFoundException();
+        }
+        else if(!user.getPassword().equals(hashPassword(update.getPassword()))){
+            throw new UnauthorizedException();
+        }
+
+        user.setEmail(update.getEmail());
+        return userRepo.save(user);
     }
 
     @Override
