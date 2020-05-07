@@ -16,7 +16,7 @@ public interface IUserService {
             throws PasswordLengthException;
 
     User updateUserPassword(UserPasswordUpdate update)
-            throws NotFoundException, UnauthorizedException;
+            throws NotFoundException, UnauthorizedException, PasswordLengthException;
 
     User updateUserEmail(UserEmailUpdate update)
             throws NotFoundException, UnauthorizedException;
