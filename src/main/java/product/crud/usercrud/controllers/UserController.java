@@ -11,6 +11,8 @@ import product.crud.usercrud.exceptions.NotFoundException;
 import product.crud.usercrud.exceptions.PasswordLengthException;
 import product.crud.usercrud.exceptions.PasswordMismatchException;
 import product.crud.usercrud.models.User;
+import product.crud.usercrud.models.UserEmailUpdate;
+import product.crud.usercrud.models.UserPasswordUpdate;
 import product.crud.usercrud.service.IUserService;
 
 import java.time.Instant;
@@ -37,6 +39,15 @@ public class UserController {
         catch (Exception e){
             return new ResponseEntity<>("Username or email already taken", HttpStatus.CONFLICT);
         }
+    }
+
+    @PostMapping(path="/update-password")
+    public ResponseEntity<?> updatePassword(@RequestBody UserPasswordUpdate update){
+        return null;
+    }
+
+    public ResponseEntity<?> updateEmail(@RequestBody UserEmailUpdate update){
+        return null;
     }
 
     @GetMapping("{id}")
