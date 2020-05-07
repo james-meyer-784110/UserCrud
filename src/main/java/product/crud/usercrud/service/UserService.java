@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import product.crud.usercrud.exceptions.*;
 import product.crud.usercrud.models.User;
+import product.crud.usercrud.models.UserEmailUpdate;
+import product.crud.usercrud.models.UserPasswordUpdate;
 import product.crud.usercrud.repo.UserRepository;
 
 import java.util.List;
@@ -30,6 +32,18 @@ public class UserService implements IUserService {
 
         User result = userRepo.save(user);
         return result;
+    }
+
+    public User updateUserPassword(UserPasswordUpdate update)
+            throws NotFoundException, UnauthorizedException
+    {
+        return null;
+    }
+
+    public User updateUserEmail(UserEmailUpdate update)
+            throws NotFoundException, UnauthorizedException
+    {
+        return null;
     }
 
     @Override
