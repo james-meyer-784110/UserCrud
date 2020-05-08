@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import product.crud.usercrud.exceptions.NotFoundException;
 import product.crud.usercrud.exceptions.PasswordLengthException;
 import product.crud.usercrud.exceptions.PasswordMismatchException;
+import product.crud.usercrud.exceptions.UnauthorizedException;
 import product.crud.usercrud.models.User;
 import product.crud.usercrud.models.UserEmailUpdate;
 import product.crud.usercrud.models.UserPasswordUpdate;
@@ -43,10 +44,33 @@ public class UserController {
 
     @PostMapping(path="/update-password")
     public ResponseEntity<?> updatePassword(@RequestBody UserPasswordUpdate update){
+        try {
+            User result = userService.updateUserPassword(update);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(
+                String.format("No use with username %s exists", update.getUserName()),
+                HttpStatus.NOT_FOUND
+            );
+        } catch (UnauthorizedException e) {
+            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
+        } catch (PasswordLengthException e) {
+            return new ResponseEntity<>("Password must be 8 characters or longer", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(path="/update-email")
+    public ResponseEntity<?> updateEmail(@RequestBody UserEmailUpdate update){
         return null;
     }
 
-    public ResponseEntity<?> updateEmail(@RequestBody UserEmailUpdate update){
+    @PostMapping(params = "/add-group/{id}")
+    public ResponseEntity<?> addUserGroupForUser(@PathVariable long id, @RequestBody String group){
+        return null;
+    }
+
+    @PostMapping(params = "/delete-group/{id}")
+    public ResponseEntity<?> deleteUserGroupForUser(@PathVariable long id, @RequestBody String group){
         return null;
     }
 
