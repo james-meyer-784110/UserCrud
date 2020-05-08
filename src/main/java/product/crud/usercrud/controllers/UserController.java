@@ -51,7 +51,7 @@ public class UserController {
             );
         } catch (NotFoundException e) {
             return new ResponseEntity<>(
-                String.format("No use with username %s exists", update.getUserName()),
+                String.format("No user with username %s exists", update.getUserName()),
                 HttpStatus.NOT_FOUND
             );
         } catch (UnauthorizedException e) {
@@ -67,7 +67,7 @@ public class UserController {
             return new ResponseEntity<>(userService.updateUserEmail(update), HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(
-                    String.format("No use with username %s exists", update.getUserName()),
+                    String.format("No user with username %s exists", update.getUserName()),
                     HttpStatus.NOT_FOUND
             );
         } catch (UnauthorizedException e) {
@@ -89,7 +89,14 @@ public class UserController {
 
     @PostMapping(params = "/delete-group/{id}")
     public ResponseEntity<?> deleteUserGroupForUser(@PathVariable long id, @RequestBody String group){
-        return null;
+        try {
+            return new ResponseEntity<>(userService.deleteGroupFromUser(id, group), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(
+                    String.format("No user with id %d exists", id),
+                    HttpStatus.NOT_FOUND
+            );
+        }
     }
 
     @GetMapping("{id}")
