@@ -34,6 +34,7 @@ public class UserService implements IUserService {
         return result;
     }
 
+    @Override
     public User updateUserPassword(UserPasswordUpdate update)
             throws NotFoundException, UnauthorizedException, PasswordLengthException
     {
@@ -52,6 +53,7 @@ public class UserService implements IUserService {
         return userRepo.save(user);
     }
 
+    @Override
     public User updateUserEmail(UserEmailUpdate update)
             throws NotFoundException, UnauthorizedException
     {
@@ -64,6 +66,30 @@ public class UserService implements IUserService {
         }
 
         user.setEmail(update.getEmail());
+        return userRepo.save(user);
+    }
+
+    @Override
+    public User addUserGroupToUser(long id, String group) throws NotFoundException {
+        Optional<User> queryResult = userRepo.findById(id);
+        if(queryResult.isEmpty()){
+            throw new NotFoundException();
+        }
+
+        User user = queryResult.get();
+        user.addUserGroup(group);
+        return userRepo.save(user);
+    }
+
+    @Override
+    public User deleteGroupFromUser(long id, String group) throws NotFoundException {
+        Optional<User> queryResult = userRepo.findById(id);
+        if(queryResult.isEmpty()){
+            throw new NotFoundException();
+        }
+
+        User user = queryResult.get();
+        user.removeUserGroup(group);
         return userRepo.save(user);
     }
 

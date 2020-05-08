@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -55,5 +56,23 @@ public class User {
         });
 
         return groups;
+    }
+
+    @JsonIgnore
+    public void addUserGroup(String group){
+        if(userGroups == null){
+            userGroups = new ArrayList<>(1);
+        }
+
+        userGroups.add(new UserGroup(0, group, new ArrayList<>(Arrays.asList(this))));
+    }
+
+    @JsonIgnore
+    public void removeUserGroup(String group){
+        if(userGroups == null){
+            return;
+        }
+
+        userGroups.remove(new UserGroup(0, group, new ArrayList<>(Arrays.asList(this))));
     }
 }

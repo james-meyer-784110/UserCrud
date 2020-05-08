@@ -21,6 +21,12 @@ public interface IUserService {
     User updateUserEmail(UserEmailUpdate update)
             throws NotFoundException, UnauthorizedException;
 
+    User addUserGroupToUser(long id, String group)
+            throws NotFoundException;
+
+    User deleteGroupFromUser(long id, String group)
+            throws NotFoundException;
+
     User deleteUser(long id) throws NotFoundException;
 
     User getUserById(long id) throws NotFoundException;

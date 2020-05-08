@@ -29,4 +29,9 @@ public class UserGroup {
     @ManyToMany(mappedBy = "userGroups")
     @JsonIgnore
     private List<User> users;
+
+    @JsonIgnore
+    public boolean equals(UserGroup other){
+        return this.name.equals(other.name);
+    }
 }
