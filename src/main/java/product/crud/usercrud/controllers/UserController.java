@@ -45,8 +45,10 @@ public class UserController {
     @PostMapping(path="/update-password")
     public ResponseEntity<?> updatePassword(@RequestBody UserPasswordUpdate update){
         try {
-            User result = userService.updateUserPassword(update);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(
+                    userService.updateUserPassword(update),
+                    HttpStatus.OK
+            );
         } catch (NotFoundException e) {
             return new ResponseEntity<>(
                 String.format("No use with username %s exists", update.getUserName()),
@@ -61,7 +63,16 @@ public class UserController {
 
     @PostMapping(path="/update-email")
     public ResponseEntity<?> updateEmail(@RequestBody UserEmailUpdate update){
-        return null;
+        try {
+            return new ResponseEntity<>(userService.updateUserEmail(update), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(
+                    String.format("No use with username %s exists", update.getUserName()),
+                    HttpStatus.NOT_FOUND
+            );
+        } catch (UnauthorizedException e) {
+            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @PostMapping(params = "/add-group/{id}")
