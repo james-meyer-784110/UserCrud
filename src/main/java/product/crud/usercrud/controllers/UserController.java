@@ -77,7 +77,14 @@ public class UserController {
 
     @PostMapping(params = "/add-group/{id}")
     public ResponseEntity<?> addUserGroupForUser(@PathVariable long id, @RequestBody String group){
-        return null;
+        try {
+            return new ResponseEntity<>(userService.addUserGroupToUser(id, group), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(
+                    String.format("No user with id %d exists", id),
+                    HttpStatus.NOT_FOUND
+            );
+        }
     }
 
     @PostMapping(params = "/delete-group/{id}")
