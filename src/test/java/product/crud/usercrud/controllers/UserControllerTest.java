@@ -29,6 +29,7 @@ import product.crud.usercrud.service.UserService;
 import java.sql.SQLException;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -243,5 +244,27 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string("Invalid username or password"))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void deleteUserReturnsOKWhenUserIsValid() throws Exception {
+        when(userService.deleteUser(Mockito.anyLong()))
+                .thenReturn(new User());
+
+        mockMvc.perform(
+                delete("/user/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteUserReturnsNotFoundWhenUserNotExists() throws Exception {
+        when(userService.deleteUser(Mockito.anyLong()))
+                .thenThrow(NotFoundException.class);
+
+        mockMvc.perform(
+                delete("/user/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }
