@@ -3,8 +3,13 @@ package product.crud.usercrud.service;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 import product.crud.usercrud.exceptions.NotFoundException;
 import product.crud.usercrud.models.User;
 import product.crud.usercrud.repo.UserRepository;
@@ -14,18 +19,16 @@ import java.util.Optional;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
+@AutoConfigureMockMvc
 public class UserServiceTest {
 
-    private IUserService userService;
-
+    @MockBean
     private UserRepository userRepository;
 
-    @Before
-    public void init(){
-        userRepository = mock(UserRepository.class);
-        userService = new UserService(userRepository);
-    }
+    @Autowired
+    private IUserService userService;
 
     @Test
     public void sanityTest(){
@@ -58,7 +61,7 @@ public class UserServiceTest {
         when(userRepository.findById(Mockito.anyLong()))
                 .thenReturn(Optional.empty());
 
-        Assert.assertNull(userService.getUserById(1));
+        Assert.assertNull(userService.getUserById(1L));
     }
 
     @Test

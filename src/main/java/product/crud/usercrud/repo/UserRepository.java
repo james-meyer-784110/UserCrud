@@ -20,18 +20,4 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query(value = "SELECT * FROM users WHERE users.user_name = :username", nativeQuery = true)
     User findByUsername(@Param("username") String username);
-
-    @Query(value = "UPDATE users SET user_email = :email WHERE user_name = :username", nativeQuery = true)
-    @Deprecated
-    void updateEmailByUsername(
-            @Param("username") String username,
-            @Param("email") String email
-    );
-
-    @Query(value = "UPDATE users SET user_password = :password WHERE user_name = :username", nativeQuery = true)
-    @Deprecated
-    void updatePasswordByUsername(
-            @Param("username") String username,
-            @Param("password") String password
-    );
 }

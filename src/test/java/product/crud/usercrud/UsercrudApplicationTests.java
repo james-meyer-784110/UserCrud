@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import product.crud.usercrud.controllers.UserController;
 
 @SpringBootTest
+
 class UsercrudApplicationTests {
 
     @Autowired
