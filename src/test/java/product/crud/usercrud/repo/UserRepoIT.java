@@ -27,6 +27,11 @@ public class UserRepoIT {
     }
 
     @Test
+    public void repoIsEmpty(){
+        Assert.assertEquals(0, repo.count());
+    }
+
+    @Test
     public void findByUsernameReturnsUserWhenValid() {
         User alice = new User(0, "alice", "alice@email.com", "password123", null);
 
@@ -53,7 +58,6 @@ public class UserRepoIT {
             repo.save(copy);
         }
         catch (DataIntegrityViolationException e){
-            System.out.printf("\n.\n.\nEXCEPTION: %s\n.\n.\n", e.getClass());
             throwsException = true;
         }
         Assert.assertTrue(throwsException);
