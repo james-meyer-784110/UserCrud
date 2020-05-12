@@ -2,7 +2,9 @@ package product.crud.usercrud.service;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import product.crud.usercrud.exceptions.*;
@@ -15,14 +17,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@NoArgsConstructor @AllArgsConstructor
 public class UserService implements IUserService {
 
     @Autowired
     private UserRepository userRepo;
 
     @Override
-    public User addUser(User user) throws PasswordLengthException {
+    public User addUser(User user) throws PasswordLengthException, WebAppException {
         if(user.getPassword().length() < 8){
             throw new PasswordLengthException();
         }
@@ -30,8 +31,11 @@ public class UserService implements IUserService {
         user.setPassword(this.hashPassword(user.getPassword()));
         user.setUserGroups(null);
 
-        User result = userRepo.save(user);
-        return result;
+        try {
+            return userRepo.save(user);
+        }catch (DataIntegrityViolationException e){
+            throw new WebAppException();
+        }
     }
 
     @Override
@@ -114,6 +118,15 @@ public class UserService implements IUserService {
 
         User user = result.get();
         return user;
+    }
+
+    @Override
+    public User getUserByName(@NonNull String name) throws NotFoundException {
+        User result = userRepo.findByUsername(name);
+        if(result == null){
+            throw new NotFoundException();
+        }
+        return result;
     }
 
     @Override
